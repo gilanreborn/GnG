@@ -9,7 +9,8 @@
     this.seed = this.game.seed;
     this.worldPos = attrs.worldPos; // expects [x, y, z]
     this.type = attrs.type || "TILE";  // stone, water, etc.
-    this.pos = attrs.pos; // expects [x, y, z] ?
+    this.pos = attrs.pos || [this.x, this.y, this.z]; // expects [x, y, z] ?
+    this.size = this.game.size / 20; // avoid floats where possible
     this.color = this.getColor();
   };
 
@@ -27,7 +28,8 @@
 
   Tile.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x * 40, this.y * 40, 40, 40); // xpos, ypos, width, height
+    var s = this.size;
+    ctx.fillRect(this.x * s, this.y * s, s, s); // xpos, ypos, width, height
     ctx.fill();
   };
 

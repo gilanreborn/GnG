@@ -8,15 +8,19 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
 (function () {
   if (typeof GnG === "undefined") { window.GnG = {}; }
 
+  var SIZE = Math.min(window.innerWidth, window.innerHeight);
+  var SQUARE = SIZE / 20;
   var DIM_X = window.innerWidth;
   var DIM_Y = window.innerHeight;
 
   var Game = GnG.Game = function (options) {
-    this.dim_x = DIM_X;
-    this.dim_y = DIM_Y;
+    this.size = SIZE;
+    this.square = SQUARE; // size of one square on the grid
+    this.dim_x = SIZE || DIM_X;
+    this.dim_y = SIZE || DIM_Y;
     this.seed = 1;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
-    this.player = new GnG.Player({ pos: [10, 10], vel: [0, 0], radius: 10, color: "#ffaa00", game: this, });
+    this.player = new GnG.Player({ game: this, });
     this.mouse = {}; // for handling the mousePos.
 
     this.textObjects = [];
