@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>GnG</title>
+    <style>
+      html, body, canvas {
+        padding: 0px;
+        margin: 0px;
+      }
+      canvas {
+        margin: auto;
+        display: block;
+        background-color: black;
+        background-size: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="game-canvas"></canvas>
+
+    <script src="GnG/keymaster-master/keymaster.js"></script>
+    <script src="GnG/vMath.js"></script>
+    <script src="GnG/utils.js"></script>
+    <script src="GnG/game.js"></script>
+    <script src="GnG/movingObject.js"></script>
+    <script src="GnG/text.js"></script>
+    <script src="GnG/hud.js"></script>
+    <script src="GnG/asteroid.js"></script>
+    <script src="GnG/bullet.js"></script>
+    <script src="GnG/ship.js"></script>
+    <script src="GnG/gameView.js"></script>
+    <script src="GnG/enemyFighter.js"></script>
+    <script src="GnG/enemyBullet.js"></script>
+    <script src="GnG/enemyFrigate.js"></script>
+    <script src="GnG/explosion.js"></script>
+    <script src="GnG/jetTrail.js"></script>
+    <script src="GnG/powerup.js"></script>
+
+    <script>
+      var game = new GnG.Game();
+      var canvasEl = document.getElementById("game-canvas");
+      canvasEl.width = window.innerWidth;
+      canvasEl.height = window.innerHeight;
+      var dims = {DIM_X: canvasEl.width, DIM_Y: canvasEl.height};
+      var ctx = canvasEl.getContext("2d");
+      new GnG.GameView(
+        game,
+        dims,
+        ctx
+      ).start(canvasEl);
+    </script>
+  </body>
+
+</html>
