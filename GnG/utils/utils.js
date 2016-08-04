@@ -1,8 +1,6 @@
 // Utility code, vector math
 (function () {
-  if (typeof GnG === "undefined") {
-    window.GnG = {};
-  }
+  if (typeof GnG === "undefined") { window.GnG = {}; }
 
   var Util = GnG.Util = {};
 
