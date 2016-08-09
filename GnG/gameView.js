@@ -8,10 +8,10 @@
   };
 
   GameView.prototype.bindKeyHandlers = function () {
-    if(key.isPressed("w")) { window.game.player.move([0, -1]); } // up
-    if(key.isPressed("s")) { window.game.player.move([0, 1]); } // left
-    if(key.isPressed("a")) { window.game.player.move([-1, 0]); } // down
-    if(key.isPressed("d")) { window.game.player.move([1, 0]); } // right
+    if(key.isPressed("w")) { window.game.player.keybindings("w"); } // up move([0, -1]);
+    if(key.isPressed("a")) { window.game.player.keybindings("a"); } // down move([-1, 0])
+    if(key.isPressed("s")) { window.game.player.keybindings("s"); } // left move([0, 1]);
+    if(key.isPressed("d")) { window.game.player.keybindings("d"); } // right move([1, 0])
     if(key.isPressed("q")) { console.log("Q POWER"); }
     if(key.isPressed("e")) { console.log("E POWER"); }
     if(key.isPressed("x")) { console.log(window.game.player.stats.hp); }

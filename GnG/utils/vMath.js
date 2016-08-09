@@ -1,6 +1,6 @@
 // Utility code, vector math
 (function () {
-  if (typeof GnG === "undefined") {
+  if (typeof vMath === "undefined") {
     window.vMath = {};
   }
 

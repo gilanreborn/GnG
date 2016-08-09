@@ -2,10 +2,9 @@
   if (typeof GnG === "undefined") { window.GnG = {}; }
 
   var Mouse = GnG.Mouse = function (attrs) {
-    this.pos = { x: 0, y: 0, };
-    this.offset = {
-      x: window.canvasEl.getBoundingClientRect.left,
-      y: window.canvasEl.getBoundingClientRect.top,
+    this.pos = {
+      x: 0,
+      y: 0,
     };
   };
 
@@ -19,6 +18,12 @@
   }
 
   function mouseClick(e) {
-    debugger;
+    window.game.player.keybindings("click");
   }
+
+  Mouse.gamePos = function () {
+    var mouse = window.GnG.Mouse;
+    // sidebar width 300px hardcoded
+    return { x: mouse.pos.x - 300, y: mouse.pos.y };
+  };
 })();

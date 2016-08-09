@@ -12,6 +12,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
   var SQUARE = SIZE / 20;
   var DIM_X = window.innerWidth;
   var DIM_Y = window.innerHeight;
+  var GAME_DIRS = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] };
 
   var Game = GnG.Game = function (options) {
     this.size = SIZE;
@@ -20,7 +21,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     this.dim_y = SIZE || DIM_Y;
     this.seed = 1;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
-    this.player = new GnG.Player({ game: this, });
+    this.player = new GnG.Player({ pos: [500, 500], game: this, });
     this.mouse = {}; // for handling the mousePos.
 
     this.textObjects = [];
@@ -43,7 +44,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
   };
 
   Game.prototype.buildStage = function () {
-    this.stage.buildFromSeed(this.seed)
+    this.stage.buildFromSeed(this.seed);
   };
 
   Game.prototype.reset = function () {

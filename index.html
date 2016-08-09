@@ -6,9 +6,17 @@
         padding: 0px;
         margin: 0px;
       }
-      canvas {
-        margin: auto;
+      div.sidebar {
         display: block;
+        float: left;
+        width: 300px;
+        height: 100%;
+        background-color: #999;
+      }
+      canvas {
+        margin: 0;
+        display: block;
+        float: left;
         background-color: black;
         background-size: cover;
       }
@@ -19,9 +27,11 @@
   </head>
 
   <body>
+    <div id="sidebar" class="sidebar"></div>
     <canvas id="game-canvas"></canvas>
 
     <script src="GnG/keymaster-master/keymaster.js"></script>
+    <script src="GnG/utils/vector.js"></script>
     <script src="GnG/utils/vMath.js"></script>
     <script src="GnG/utils/utils.js"></script>
     <script src="GnG/game.js"></script>
