@@ -9,22 +9,12 @@
     this.seed = this.game.seed;
     this.worldPos = attrs.worldPos; // expects [x, y, z]
     this.type = attrs.type || "TILE";  // stone, water, etc.
-    this.pos = attrs.pos || [this.x, this.y, this.z]; // expects [x, y, z] ?
+    this.pos = attrs.pos || v([this.x, this.y, this.z]); // expects [x, y, z] ?
     this.size = this.game.size / 20; // avoid floats where possible
     this.color = this.getColor();
   };
 
   // GnG.Util.inherits(Player, GnG.MovingObject);
-
-  Tile.prototype.buildFromSeed = function (o) {
-    var self = this;
-    for (var x = 0; x < 20; x++) {
-      for (var y = 0; y < 20; y++) {
-        var tile = new GnG.Tile({ seed: this.seed, worldPos: this.worldPos, x: x, y: y });
-        self.tiles.push(tile);
-      }
-    }
-  };
 
   Tile.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
@@ -39,7 +29,24 @@
 
   Tile.prototype.getColor = function () {
     // very naiive tile colorizer.
-    if ( (this.x + this.y) % 2 === 1 ) { return "#ffaa00"; }
+    // if stage has walls, walls are where x is 0 or 20 || y is 0 or 20, plus some extras?
+    // build stage in layers, first floor, then walls, then room objects?
+    // current formulation not good for building sections of things. very sharp.
+    // want a more blobby approach.  Perhaps values fall within some range?
+    // threshold values...
+    var a = 1, b = 8; // 8
+    if ( (this.x * a + b * this.y) % 37 === 0 ) { return "#bb0000"; }
+    if ( (this.x * a + b * this.y) % 31 === 0 ) { return "#0000aa"; }
+    if ( (this.x * a + b * this.y) % 29 === 0 ) { return "#009900"; }
+    if ( (this.x * a + b * this.y) % 23 === 0 ) { return "#888888"; }
+    if ( (this.x * a + b * this.y) % 19 === 0 ) { return "#777777"; }
+    if ( (this.x * a + b * this.y) % 16 === 0 ) { return "#6666666"; }
+    if ( (this.x * a + b * this.y) % 13 === 0 ) { return "#555555"; }
+    if ( (this.x * a + b * this.y) % 11 === 0 ) { return "#444444"; }
+    if ( (this.x * a + b * this.y) % 7 === 0 ) { return "#333333"; }
+    if ( (this.x * a + b * this.y) % 5 === 0 ) { return "#222222"; }
+    if ( (this.x * a + b * this.y) % 3 === 0 ) { return "#111111"; }
+    if ( (this.x * a + b * this.y) % 2 === 0 ) { return "#000000"; }
     return "#aabbcc";
   };
 })();

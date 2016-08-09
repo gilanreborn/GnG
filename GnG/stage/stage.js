@@ -12,10 +12,13 @@
     this.buildFromSeed({ seed: this.seed, worldPos: this.worldPos, });
   };
 
+  Stage.Types = ['DESERT', 'ROCKY', 'URBAN', 'CAVE', 'OASIS', 'DUNGEON']
   // GnG.Util.inherits(Player, GnG.MovingObject);
 
   Stage.prototype.buildFromSeed = function (o) {
     var self = this;
+    // set own type from worldpos.
+    // default to 'open desert...'
     for (var x = 0; x < 20; x++) {
       for (var y = 0; y < 20; y++) {
         var tile = new GnG.Tile({ game: this.game, seed: o.seed, worldPos: o.worldPos, x: x, y: y });
