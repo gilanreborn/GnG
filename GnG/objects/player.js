@@ -12,7 +12,10 @@
     this.type = "PLAYER";
     this.pos = v(attrs.pos) || v([10 * this.size, 10 * this.size, 10]); // [x, y, z]
     this.vel = v(attrs.vel) || v([0, 0]);
-    this.orientation = v(attrs.orientation) || v([1, 0]);
+    this.orientation = function () { // maybe call it this.ort
+      var mousePos = window.GnG.Mouse.gamePos();
+      return v([mousePos.x, mousePos.y]).minus(this.pos);
+    };
     this.radius = attrs.radius || 10;
     this.color = attrs.color;
     this.stats = { spd: 3, str: 0, hp: 100, };
@@ -29,6 +32,7 @@
         case "click": {
           var mousePos = window.GnG.Mouse.gamePos();
           console.log("click logged at " + mousePos.x + " " + mousePos.y);
+          console.log(self.orientation());
           break; }
       }
     };
