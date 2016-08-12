@@ -24,9 +24,9 @@
   Util.offScreen = function (obj) {
     var halfOff = game.square / 2;
     if ( obj.pos.x < -halfOff ) { return 'WEST'; }
-    if ( obj.pos.x > game.size + halfOff ) { return 'EAST'; }
+    if ( obj.pos.x > game.size - halfOff ) { return 'EAST'; }
     if ( obj.pos.y < -halfOff ) { return 'NORTH'; }
-    if ( obj.pos.y > game.size + halfOff ) { return 'SOUTH'; }
+    if ( obj.pos.y > game.size - halfOff ) { return 'SOUTH'; }
     return false;
   };
 
