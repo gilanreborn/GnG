@@ -22,10 +22,11 @@
   };
 
   Util.offScreen = function (obj) {
-    // if (obj.pos.vector[0] < 0 || obj.pos.vector[0] > GnG.Game.dim_x()) // GnG.Game.DIM_X)
-    //   { return true; }
-    // if (obj.pos.vector[1] < 0 || obj.pos.vector[1] > GnG.Game.dim_y() + 100) // GnG.Game.DIM_Y)
-    //   { return true; }
+    var halfOff = game.square / 2;
+    if ( obj.pos.x < -halfOff ) { return 'WEST'; }
+    if ( obj.pos.x > game.size + halfOff ) { return 'EAST'; }
+    if ( obj.pos.y < -halfOff ) { return 'NORTH'; }
+    if ( obj.pos.y > game.size + halfOff ) { return 'SOUTH'; }
     return false;
   };
 

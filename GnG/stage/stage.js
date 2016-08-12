@@ -5,7 +5,7 @@
   var Stage = GnG.Stage = function (attrs) {
     this.game = attrs.game;
     this.seed = this.game.seed;
-    this.worldPos = attrs.worldPos; // expects [x, y, z]
+    this.worldPos = v(attrs.worldPos); // expects [x, y, z]
     this.type = attrs.type || "STAGE";  // dungeon, forest, etc.
     this.tiles = [];
 
@@ -28,7 +28,7 @@
     // populate stage
     for (var x = 0; x < 20; x++) {
       for (var y = 0; y < 20; y++) {
-        var random = ((x + 13) * (y + 17) * self.seed * (self.worldPos[0] + 1) * (self.worldPos[1] + 3)).toString();
+        var random = ((x + 13) * (y + 17) * self.seed * (self.worldPos.x + 1) * (self.worldPos.y + 3)).toString();
         var randType = Stage.Sampler[ self.game.rand(random) % 11 ];
         var tile = new GnG.Tile({
           game: self.game,

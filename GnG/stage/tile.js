@@ -9,7 +9,7 @@
     this.stageY = attrs.stageY;
     this.game = attrs.game;
     this.seed = this.game.seed;
-    this.worldPos = attrs.worldPos; // expects [x, y, z]
+    this.worldPos = v(attrs.worldPos); // expects [x, y, z]
     this.type = attrs.type || "TILE";  // stone, water, etc.
     this.pos = attrs.pos || v([this.x, this.y, this.z]); // expects [x, y, z] ?
     this.size = this.game.square; // avoid floats where possible

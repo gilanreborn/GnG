@@ -12,7 +12,9 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
   var SQUARE = SIZE / 20;
   var DIM_X = window.innerWidth;
   var DIM_Y = window.innerHeight;
-  var GAME_DIRS = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] };
+  var GAME_DIRS = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0],
+                    NORTH: [0, 1, 0], SOUTH: [0, -1, 0], WEST: [-1, 0, 0], EAST: [1, 0, 0],
+                  };
 
   var Game = GnG.Game = function (options) {
     this.size = SIZE;
@@ -22,7 +24,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     this.seed = 12;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
     this.player = new GnG.Player({ pos: [500, 500], game: this, });
-    this.mouse = {}; // for handling the mousePos.
+    this.mouse = {}; // for handling the mousePos.  not currently usedd...
 
     this.textObjects = [];
     this.movingObjects = [this.player]; // move to stage?
@@ -95,8 +97,22 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
   };
 
   Game.prototype.cleanUp = function () {
+    var self = this;
     this.movingObjects.forEach(function (object) {
-      if (GnG.Util.offScreen(object)) { this.remove(object); }
+      if ( GnG.Util.offScreen(object) ) {
+        if (object.type === 'PLAYER') {
+          var dir = GnG.Util.offScreen(object);
+          var newPlayerPos;
+          var oldWorldPos = game.stage.worldPos; // build new stage;
+          var newWorldPos = v(oldWorldPos).plus(v(GAME_DIRS[dir]));
+          if ( dir === 'NORTH' ) { newPlayerPos = [0, DIM_Y]; } // player exits top of screen, appears at bottom
+          if ( dir === 'SOUTH' ) { newPlayerPos = [0, -DIM_Y]; } // player exits bottom of screen, appears at top
+          if ( dir === 'EAST' ) { newPlayerPos = [-DIM_X, 0]; } // player exits screen right, appears at left
+          if ( dir === 'WEST' ) { newPlayerPos = [DIM_X, 0]; } // player exists screen left, apepars at right
+          this.buildStage(newWorldPos);
+          this.player.pos = this.player.pos.plus(v(newPlayerPos));
+        } else { game.remove(object); }
+      }
     }.bind(this));
   };
 
@@ -118,8 +134,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     // begin by getting the squares of each object;
     // then check for collisions against adjacent squares;
     var self = this;
-    console.log('checking collisions');
-    var colliderHash = {};
+    // hoping to improve the smarts of this one to optimize performance;
     for (var i = 0; i < self.movingObjects.length; i++) {
       var obj = self.movingObjects[i];
       for (var j = 0; j < self.stage.tiles.length; j++) {
