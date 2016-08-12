@@ -55,7 +55,7 @@
   Player.prototype.draw = function () {
     var s = this.size;
     if ( this.pos.isVector ) {
-      ctx.drawImage(this.img, this.pos.x - s/2, this.pos.y - s/2, s, s);
+      ctx.drawImage(this.img, this.pos.x, this.pos.y, s, s);
     }
   };
 

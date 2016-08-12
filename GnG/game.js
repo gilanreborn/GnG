@@ -19,7 +19,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     this.square = SQUARE; // size of one square on the grid
     this.dim_x = SIZE || DIM_X;
     this.dim_y = SIZE || DIM_Y;
-    this.seed = 1;
+    this.seed = 21;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
     this.player = new GnG.Player({ pos: [500, 500], game: this, });
     this.mouse = {}; // for handling the mousePos.
@@ -37,14 +37,24 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
 
   Game.dim_x = function () { return window.innerWidth; };
   Game.dim_y = function () { return window.innerHeight; };
+  Game.prototype.rand = function (s) {
+    var hash = 0;
+    if (s.length === 0) return hash;
+    for (var i = 0; i < s.length; i++) {
+      var char = s.charCodeAt(i);
+      hash = ( (hash << 5) - hash ) + char; // << is a bitwise left shift
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  };
 
   Game.prototype.start = function () {
-    this.buildStage();
+    this.buildStage([1, 1, 1]);
     this.reset();
   };
 
-  Game.prototype.buildStage = function () {
-    this.stage.buildFromSeed(this.seed);
+  Game.prototype.buildStage = function (worldPos) {
+    this.stage = new GnG.Stage({ worldPos: worldPos, game: this });
   };
 
   Game.prototype.reset = function () {
@@ -104,7 +114,26 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     return [origX, origY];
   };
 
-  Game.prototype.checkCollisions = function () {};
+  Game.prototype.checkCollisions = function () {
+    // begin by getting the squares of each object;
+    // then check for collisions against adjacent squares;
+    var self = this;
+    console.log('checking collisions');
+    var colliderHash = {};
+    for (var i = 0; i < self.movingObjects.length; i++) {
+      var obj = self.movingObjects[i];
+      for (var j = 0; j < self.stage.tiles.length; j++) {
+        var tile = self.stage.tiles[j];
+        var a = self.stage.coords(obj);
+        var b = [tile.stageX, tile.stageY];
+        if ( self.stage.adjacentCoords(a, b) ) {
+          if ( obj.isCollidedWith(tile) ) {
+            obj.collideWith(tile);
+          }
+        }
+      }
+    }
+  };
 
   Game.prototype.step = function () {
     if (!this.pause) {

@@ -61,17 +61,29 @@
     return impulse;
   };
 
-  MovingObject.prototype.isCollidedWith = function (otherObject) {
-    //dont calculate if they're far apart to optimize (nothing has radius > 80?)
-    if (Math.abs(this.pos[0] - otherObject.pos[0] > 160 || Math.abs(this.pos[1] - otherObject.pos[1] > 180))) {
-      return false;
-    }
-    // if theyre near, get the exact distance.
-    var distObjs = GnG.Util.dist(this.pos, otherObject.pos);
-    return distObjs < (this.radius + otherObject.radius);
+  MovingObject.prototype.isCollidedWith = function (that) {
+    // rectangle collision
+    return ( this.pos.x < that.pos.x + that.size &&
+             this.pos.x + this.size > that.x &&
+             this.pos.y < that.pos.y + that.size &&
+             this.pos.y + this.size > that.pos.y );
   };
 
-  MovingObject.prototype.collideWith = function (otherObject) {
+  MovingObject.prototype.collideWith = function (that) {
+    if ( that.type === 'FLOOR' ) {}
+    if ( that.type !== 'FLOOR' ) {
+      if ( this.pos.x < that.pos.x ) { // if this is left of that
+        this.pos.x = that.pos.x - this.size; // this can't get closer than its width
+      } else if ( this.pos.x > that.pos.x ) { // if this right of that
+        this.pos.x = that.pos.x + that.size; // this can't get closer than that's width
+      }
+      if ( this.pos.y < that.pos.y ) { // if this is above that
+        this.pos.y = that.pos.y - this.size; // this can't get closer than its height
+      } else if ( this.pos.y > that.pos.y ) { // if this is below that
+        this.pos.y = that.pos.y + that.size; // this can't get closer than that's height
+      }
+    }
+    console.log('collided with ' + that.type );
   };
 
 })();
