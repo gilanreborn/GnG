@@ -72,20 +72,19 @@
   MovingObject.prototype.collideWith = function (that) {
     if ( that.type === 'FLOOR' ) {}
     if ( that.type !== 'FLOOR' ) {
-      // get relative vector; then eject player towards the closest open space.
+      // get relative vector; then eject player towards the nearest open space.
       var rv = that.pos.minus(this.pos);
       var ev; // ejection vector;
-      if ( Math.abs(rv.x) > Math.abs(rv.y) ) { // prefer eject in x direction
-        var evX = rv.x > 0 ? rv.x - this.size : this.size + rv.x - 1;
+      if ( Math.abs(rv.x) > Math.abs(rv.y) ) {
+        var evX = rv.x > 0 ? rv.x - this.size : this.size + rv.x;
         ev = v([evX, 0]);
       } else {
-        var evY = rv.y > 0 ? rv.y - this.size : this.size + rv.y - 1;
+        var evY = rv.y > 0 ? rv.y - this.size : this.size + rv.y;
         ev = v([0, evY]);
       }
 
       this.pos = this.pos.plus(ev);
     }
-
   };
 
 })();

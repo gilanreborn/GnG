@@ -19,7 +19,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     this.square = SQUARE; // size of one square on the grid
     this.dim_x = SIZE || DIM_X;
     this.dim_y = SIZE || DIM_Y;
-    this.seed = 32;
+    this.seed = 12;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
     this.player = new GnG.Player({ pos: [500, 500], game: this, });
     this.mouse = {}; // for handling the mousePos.

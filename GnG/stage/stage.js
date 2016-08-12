@@ -13,7 +13,7 @@
   };
 
   Stage.Types = ['DESERT', 'ROCKY', 'URBAN', 'CAVE', 'OASIS', 'DUNGEON'];
-  Stage.Sampler = ['FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'WALL',
+  Stage.Sampler = ['FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'FLOOR',
                     'WALL', 'WALL', 'WALL', 'DOOR', 'SPECIAL'];
   // GnG.Util.inherits(Player, GnG.MovingObject);
 
