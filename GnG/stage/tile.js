@@ -41,7 +41,7 @@
       case "FLOOR": { return '#ffaa00'; }
       case "WALL": { return '#993300'; }
       case "DOOR": { return '#aaaaaa'; }
-      case "SPECIAL": { return '0000ee'; }
+      case "SPECIAL": { return '#0000ee'; }
       default: { return '#000000'; }
     }
     // var a = 1, b = 8; // 8
