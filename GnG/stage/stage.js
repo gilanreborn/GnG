@@ -6,7 +6,7 @@
     this.game = attrs.game;
     this.seed = this.game.seed;
     this.worldPos = v(attrs.worldPos); // expects [x, y, z]
-    this.type = attrs.type || "STAGE";  // dungeon, forest, etc.
+    this.type = attrs.type || "DESERT";  // dungeon, forest, etc.
     this.tileKeys = [];
     this.tiles = {};
 
@@ -75,5 +75,12 @@
     return [ [cx+1, cy+1], [cx, cy+1], [cx-1, cy+1],
               [cx+1, cy], [cx, cy], [cx-1, cy],
               [cx+1, cy-1], [cx, cy-1], [cx, cy+1] ];
+  };
+  
+  Stage.build = {
+    // a build object that holds different functions for building stages;
+    random: function () {};
+    interior: {};
+    exterior: {};
   };
 })();
