@@ -77,10 +77,10 @@
               [cx+1, cy-1], [cx, cy-1], [cx, cy+1] ];
   };
   
-  Stage.build = {
-    // a build object that holds different functions for building stages;
-    random: function () {};
-    interior: {};
-    exterior: {};
-  };
+  // Stage.build = {
+  //   // a build object that holds different functions for building stages;
+  //   random: function () {};
+  //   interior: {};
+  //   exterior: {};
+  // };
 })();
