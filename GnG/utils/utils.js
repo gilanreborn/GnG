@@ -12,6 +12,22 @@
     childClass.prototype.constructor = childClass;
   };
 
+  Util.rand = function (s) {
+    var hash = 0;
+    if (s.length === 0) return hash;
+    for (var i = 0; i < s.length; i++) {
+      var char = s.charCodeAt(i);
+      hash = ( (hash << 5) - hash ) + char; // << is a bitwise left shift
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  Util.seedRand = function (x, y, seed) {
+    var composite = (x.x + y.x + 7) * (x.y + y.y + 8) * seed;
+    return this.rand(composite.toString());
+  };
+
   Util.inBounds = function (position) {
     var pos = v(position);
     if (pos.x < 0) { return false; }

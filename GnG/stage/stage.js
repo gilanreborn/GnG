@@ -16,6 +16,7 @@
   Stage.Types = ['DESERT', 'ROCKY', 'URBAN', 'CAVE', 'OASIS', 'DUNGEON'];
   Stage.Sampler = ['FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'FLOOR', 'FLOOR',
                     'WALL', 'WALL', 'WALL', 'DOOR', 'SPECIAL'];
+
   // GnG.Util.inherits(Player, GnG.MovingObject);
 
   Stage.prototype.buildFromSeed = function (o) {
@@ -49,6 +50,84 @@
       }
     }
     // build stage edges;
+    self.buildEdges(o.worldPos, o.seed);
+  };
+
+  Stage.prototype.buildEdges = function (worldPos, seed) {
+    var self = this;
+    var nw = worldPos, // get 4 corners of stage
+        ne = worldPos.plus(v([1, 0])),
+        se = worldPos.plus(v([1, -1])),
+        sw = worldPos.plus(v([0, -1]));
+
+    // define edge from corners
+    var northString = GnG.Util.seedRand(nw, ne, seed); // is a number
+    for (var i = 0; i < 20; i++) {
+      var posString = i + ",0";
+      var randType = Stage.Sampler[ (northString + i) % 11 ];
+      var tile = new GnG.Tile({
+        game: self.game,
+        seed: seed,
+        worldPos: worldPos,
+        stageX: i, stageY: 0,
+        x: i * self.game.square,
+        y: 0,
+        stageType: self.type,
+        type: randType,
+      });
+      this.tiles[posString] = tile;
+    }
+    // east edge
+    var eastString = GnG.Util.seedRand(ne, se, seed);
+    for (var j = 0; j < 20; j++) {
+      var psEast = "19," + j;
+      var rtEast = Stage.Sampler[ (eastString + j) % 11 ];
+      var tileEast = new GnG.Tile({
+        game: self.game,
+        seed: seed,
+        worldPos: worldPos,
+        stageX: 19, stageY: j,
+        x: 19 * self.game.square,
+        y: j * self.game.square,
+        stageType: self.type,
+        type: rtEast,
+      });
+      this.tiles[psEast] = tileEast;
+    }
+    // south edge
+    var southString = GnG.Util.seedRand(se, sw, seed);
+    for (var k = 0; k < 20; k++) {
+      var psSouth = k + ",19";
+      var rtSouth = Stage.Sampler[ (southString + k) % 11 ];
+      var tileSouth = new GnG.Tile({
+        game: self.game,
+        seed: seed,
+        worldPos: worldPos,
+        stageX: k, stageY: 19,
+        x: k * self.game.square,
+        y: 19 * self.game.square,
+        stageType: self.type,
+        type: rtSouth,
+      });
+      this.tiles[psSouth] = tileSouth;
+    }
+    // west edge
+    var westString = GnG.Util.seedRand(sw, nw, seed);
+    for (var l = 0; l < 20; l++) {
+      var psWest = "0," + l;
+      var rtWest = Stage.Sampler[ (westString + l) % 11 ];
+      var tileWest = new GnG.Tile({
+        game: self.game,
+        seed: seed,
+        worldPos: worldPos,
+        stageX: 0, stageY: l,
+        x: 0,
+        y: l * self.game.square,
+        stageType: self.type,
+        type: rtWest,
+      });
+      this.tiles[psWest] = tileWest;
+    }
   };
 
   Stage.prototype.draw = function (ctx) {
