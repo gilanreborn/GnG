@@ -32,7 +32,8 @@
       for (var y = 0; y < 20; y++) {
         // random has problems with x = -13 or y = -17 or x = -1 or y = -3...
         var random = ((x + 13) * (y + 17) * self.seed * (self.worldPos.x + 1) * (self.worldPos.y + 3)).toString();
-        var randType = Stage.Sampler[ self.game.rand(random) % 11 ];
+        if ( x + y > 36) { console.log(random); }
+        var randType = Stage.Sampler[ Math.abs(self.game.rand(random) % 11) ];
         // if ( x === 0 || y === 0 || x === 19 || y === 19 ) { randType = 'FLOOR' };   // temporary.
         var tile = new GnG.Tile({
           game: self.game,
