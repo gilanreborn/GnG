@@ -21,7 +21,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     this.square = SQUARE; // size of one square on the grid
     this.dim_x = SIZE || DIM_X;
     this.dim_y = SIZE || DIM_Y;
-    this.seed = 127;
+    this.seed = 28;
     this.stage = new GnG.Stage({ game: this, worldPos: [1, 1, 1], });
     this.player = new GnG.Player({ pos: [500, 500], game: this, });
     this.mouse = {}; // for handling the mousePos.  not currently usedd...
@@ -105,10 +105,10 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
           var newPlayerPos;
           var oldWorldPos = game.stage.worldPos; // build new stage;
           var newWorldPos = v(oldWorldPos).plus(v(GAME_DIRS[dir]));
-          if ( dir === 'NORTH' ) { newPlayerPos = [0, DIM_Y]; } // player exits top of screen, appears at bottom
-          if ( dir === 'SOUTH' ) { newPlayerPos = [0, -DIM_Y]; } // player exits bottom of screen, appears at top
-          if ( dir === 'EAST' ) { newPlayerPos = [-DIM_X, 0]; } // player exits screen right, appears at left
-          if ( dir === 'WEST' ) { newPlayerPos = [DIM_X, 0]; } // player exists screen left, apepars at right
+          if ( dir === 'NORTH' ) { newPlayerPos = [0, SIZE]; } // player exits top of screen, appears at bottom
+          if ( dir === 'SOUTH' ) { newPlayerPos = [0, -SIZE]; } // player exits bottom of screen, appears at top
+          if ( dir === 'EAST' ) { newPlayerPos = [-SIZE, 0]; } // player exits screen right, appears at left
+          if ( dir === 'WEST' ) { newPlayerPos = [SIZE, 0]; } // player exists screen left, apepars at right
           this.buildStage(newWorldPos);
           this.player.pos = this.player.pos.plus(v(newPlayerPos));
         } else { game.remove(object); }
@@ -116,7 +116,7 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     }.bind(this));
   };
 
-  Game.prototype.getBounds = function () { return [DIM_X, DIM_Y]; };
+  Game.prototype.getBounds = function () { return [SIZE, SIZE]; };
 
   Game.prototype.bounds = function (pos) {
     var origX = pos[0];
@@ -137,16 +137,18 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
     // hoping to improve the smarts of this one to optimize performance;
     for (var i = 0; i < self.movingObjects.length; i++) {
       var obj = self.movingObjects[i];
-      for (var j = 0; j < self.stage.tiles.length; j++) {
-        var tile = self.stage.tiles[j];
-        var a = self.stage.coords(obj);
-        var b = [tile.stageX, tile.stageY];
-        if ( self.stage.adjacentCoords(a, b) ) {
-          if ( obj.isCollidedWith(tile) ) {
-            obj.collideWith(tile);
-          }
+
+      // check for tile collisions
+      var objCoords = self.stage.coords(obj);
+      var adjTiles = self.stage.adjacentSquares(objCoords);
+      var tileKeys = adjTiles.map(function (coord) { return v(coord).x + "," + v(coord).y; });
+
+      tileKeys.forEach(function (key) {
+        var tile = self.stage.tiles[key];
+        if ( tile && obj.isCollidedWith(tile) ) {
+          obj.collideWith(tile);
         }
-      }
+      });
     }
   };
 

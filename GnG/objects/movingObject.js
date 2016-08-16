@@ -66,7 +66,8 @@
     return ( this.pos.x < that.pos.x + that.size &&
              this.pos.x + this.size > that.x &&
              this.pos.y < that.pos.y + that.size &&
-             this.pos.y + this.size > that.pos.y );
+             this.pos.y + this.size > that.pos.y
+           );
   };
 
   MovingObject.prototype.collideWith = function (that) {
