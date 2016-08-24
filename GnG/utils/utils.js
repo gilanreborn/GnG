@@ -20,7 +20,7 @@
       hash = ( (hash << 5) - hash ) + char; // << is a bitwise left shift
       hash = hash & hash; // Convert to 32bit integer
     }
-    return hash;
+    return Math.abs(hash);
   };
 
   Util.seedRand = function (x, y, seed) {

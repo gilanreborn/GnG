@@ -2,12 +2,12 @@
   if (typeof GnG === "undefined") { window.GnG = {}; }
 
   var Tile = GnG.Tile = function (attrs) {
-    this.x = attrs.x;
-    this.y = attrs.y;
-    this.z = this.getZ();
-    this.stageX = attrs.stageX;
-    this.stageY = attrs.stageY;
     this.game = attrs.game;
+    this.stageX = attrs.stageX; // square coords
+    this.stageY = attrs.stageY;
+    this.x = attrs.x || this.stageX * this.game.square; // pixels
+    this.y = attrs.y || this.stageY * this.game.square;
+    this.z = this.getZ();
     this.seed = this.game.seed;
     this.worldPos = v(attrs.worldPos); // expects [x, y, z]
     this.type = attrs.type || "TILE";  // stone, water, etc.
@@ -37,10 +37,12 @@
     // want a more blobby approach.  Perhaps values fall within some range?
     // threshold values...
     switch (this.type) {
-      case "FLOOR": { return '#ffaa00'; } // orange
-      case "WALL": { return '#993300'; } // brown
-      case "DOOR": { return '#aaaaaa'; } // gray
-      case "SPECIAL": { return '#0000ee'; } //blue
+      case 'FLOOR': { return '#ffaa00'; } // orange
+      case 'WALL': { return '#993300'; } // brown
+      case 'DOOR': { return '#aaaaaa'; } // gray
+      case 'WATER': { return '#1232ae'; } // blueish
+      case 'PLANT': { return '#238932'; } // greenish
+      case 'SPECIAL': { return '#0000ee'; } //blue
       default: { return '#000000'; } // black!
     }
   };

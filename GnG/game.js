@@ -39,15 +39,17 @@ Keeps track of dimensions of the space; wraps objects around when they drift off
 
   Game.dim_x = function () { return window.innerWidth; };
   Game.dim_y = function () { return window.innerHeight; };
+
   Game.prototype.rand = function (s) {
-    var hash = 0;
-    if (s.length === 0) return hash;
+    var hash = 5831;
+    if ( typeof(s) === 'number' ) { s = s.toString(); }
+    if (s.length === 0) { return hash; }
     for (var i = 0; i < s.length; i++) {
       var char = s.charCodeAt(i);
-      hash = ( (hash << 5) - hash ) + char; // << is a bitwise left shift
-      hash = hash & hash; // Convert to 32bit integer
+      hash = ( ((hash << 5) + hash ) + char) ^ (char * char); // << is a bitwise left shift
+      hash = (hash & hash); // Convert to 32bit integer
     }
-    return hash;
+    return hash >>> 0;
   };
 
   Game.prototype.start = function () {
